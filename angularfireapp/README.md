@@ -1,17 +1,7 @@
 
-## Firebase & AngularFire In Depth 
+## Firebase & AngularFire
 
-This repository currently contains the code for the [Firebase & AngularFire In Depth](https://angular-university.io/course/angularfire-course).
-
-This course is updated to Angular 13:
-
-![Firebase & AngularFire In Depth](https://angular-university.s3-us-west-1.amazonaws.com/course-images/firebase-course-1.jpg)
-
-You can find the starting point of the course in the [1-start branch](https://github.com/angular-university/firebase-course/tree/1-start).
-
-This master branch contains the *final version of the course code*, that you can use as a reference if you choose to code along. 
-
-
+At the moment, I'm learning morea about concepts firebase cloud with AngularFire
 
 # Installation pre-requisites
 
@@ -25,9 +15,7 @@ With the following command the angular-cli will be installed globally in your ma
 
 # How To install this repository
 
-We can install the master branch using the following commands:
-
-    git clone https://github.com/angular-university/firebase-course.git
+We can install the master branch using the following commands:    
 
     cd firebase-course
     npm ci
