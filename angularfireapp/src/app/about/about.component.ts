@@ -48,6 +48,19 @@ export class AboutComponent {
             })
     }
 
+    onReadCollection() {
+        this.db.collection("courses/GzeiWhoOq4O8Dn94UNy8/lessons",
+            //This parte how to implement a filter 
+            ref => ref.where('seqNo', "==", 1)
+        ).get()
+            .subscribe(snaps => {
+                snaps.forEach(snap => {
+                    console.log(snap.id);
+                    console.log(snap.data());
+                })
+            });
+    }
+
 }
 
 
