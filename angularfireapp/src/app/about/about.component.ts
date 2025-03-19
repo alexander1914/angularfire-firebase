@@ -41,18 +41,39 @@ export class AboutComponent {
     }
 
     onReadDoc() {
-        this.db.doc("/courses/DNCc1wbwoIOEkXxnXrtA").get()
+        this.db.doc("/courses/DNCc1wbwoIOEkXxnXrtA")
+            /* .snapshotChanges()
             .subscribe(snap => {
-                console.log(snap.id);
-                console.log(snap.data());
-            })
+                console.log(snap.payload.id);
+                console.log(snap.payload.data());
+            }) */
+
+            //This method most popular to use your application realtime updates
+            .valueChanges()
+            .subscribe(course => {
+                console.log(course);
+            });
     }
 
     onReadCollection() {
-        this.db.collection("courses/GzeiWhoOq4O8Dn94UNy8/lessons",
+        this.db.collection("courses",
             //This parte how to implement a filter 
-            ref => ref.where('seqNo', "==", 1)
+            ref => ref.where("seqNo", "<=", 20)
+                .where("url", "==", "angular-forms-course")
+                .orderBy("seqNo")
         ).get()
+            .subscribe(snaps => {
+                snaps.forEach(snap => {
+                    console.log(snap.id);
+                    console.log(snap.data());
+                })
+            });
+    }
+
+    onReadCollectionGroup() {
+        this.db.collectionGroup("lessons",
+            ref => ref.where("seqNo", "==", 1))
+            .get()
             .subscribe(snaps => {
                 snaps.forEach(snap => {
                     console.log(snap.id);

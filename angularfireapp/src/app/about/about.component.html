@@ -6,9 +6,13 @@
     src="https://angular-university.s3-us-west-1.amazonaws.com/course-images/firebase-course-1.jpg">
 
 
-  <button mat-raised-button class="upload-btn" color="primary" (click)="uploadData()">Populate Database</button>
+  <button mat-raised-button disabled="true" class="upload-btn" color="primary" (click)="uploadData()">Populate
+    Database</button>
 
-  <button mat-raised-button color="accent" (click)="onReadDoc()">Read Document</button>
+  <button mat-raised-button color="primary" (click)="onReadDoc()">Read Document</button>
 
-  <button mat-raised-button color="warn" (click)="onReadCollection()">Read Collection on FireBase</button>
+  <button mat-raised-button color="accent" (click)="onReadCollection()">Read Collection on FireBase</button>
+
+  <button mat-raised-button color="accent" (click)="onReadCollectionGroup()">Read Collection Group on FireBase</button>
+
 </div>
