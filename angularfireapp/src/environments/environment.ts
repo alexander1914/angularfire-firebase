@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
+  useEmulators: false, // To run a enviroment local by firebase emulators
   firebase: {
     apiKey: "AIzaSyC6BzdARqJ9jbcHsTOEqK7eTNjXwW2WTRQ",
     authDomain: "angularfire-2a7c1.firebaseapp.com",
@@ -16,7 +17,6 @@ export const environment = {
 
   }
 };
-
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

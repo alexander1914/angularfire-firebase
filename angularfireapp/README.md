@@ -35,10 +35,16 @@ The application is visible at port 4200: [http://localhost:4200](http://localhos
 
 # Installing the Firebase
 
-npm install firebase
+    npm install firebase
 
-npm install -g firebase-tools
+    npm install -g firebase-tools
 
-firebase login - to create all process about login
+    firebase login - to create all process about login
 
-firebase int - to create set up about the firebase plataforms
+    firebase init - to create set up about the firebase plataforms
+
+# Running the firebase commands
+
+    firebase emulators:start --only firestore
+    firebase emulators:start
+    firebase emulators:start --only firestore --import test-data
