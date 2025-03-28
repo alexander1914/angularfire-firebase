@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {Course} from '../model/course';
-import {catchError, concatMap, last, map, take, tap} from 'rxjs/operators';
-import {from, Observable, throwError} from 'rxjs';
-import {Router} from '@angular/router';
-import {AngularFireStorage} from '@angular/fire/storage';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Course } from '../model/course';
+import { catchError, concatMap, last, map, take, tap } from 'rxjs/operators';
+import { from, Observable, throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import { AngularFireStorage } from '@angular/fire/storage';
 import firebase from 'firebase/app';
 import Timestamp = firebase.firestore.Timestamp;
 
@@ -16,11 +16,31 @@ import Timestamp = firebase.firestore.Timestamp;
 })
 export class CreateCourseComponent implements OnInit {
 
-  constructor() {
+  //To create Validators your form
+  form = this.fb.group({
+    description: ['', Validators.required],
+    category: ['BEGINNER', Validators.required],
+    url: ['', Validators.required],
+    longDescription: ['', Validators.required],
+    promo: [false],
+    promoStartAt: [null]
+  })
+
+  constructor(private fb: FormBuilder) {
 
   }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  onCreateCourse() {
+
+    const newCourse = { ...this.form.value } as Course;
+
+    //a way to convert a Data with lib firebase
+    newCourse.promoStartAt = Timestamp.fromDate(this.form.value.promoStartAt);
+
+    console.log(newCourse);
+
 
   }
 
