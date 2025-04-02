@@ -22,7 +22,7 @@ export class CreateCourseComponent implements OnInit {
   //To create Validators your form
   form = this.fb.group({
     description: ['', Validators.required],
-    categories: ["BEGINNER", Validators.required],
+    category: ["BEGINNER", Validators.required],
     url: ['', Validators.required],
     longDescription: ['', Validators.required],
     promo: [false],
@@ -51,7 +51,7 @@ export class CreateCourseComponent implements OnInit {
       url: formValue.url,
       longDescription: formValue.longDescription,
       promo: formValue.promo,
-      categories: formValue.categories
+      categories: [formValue.category]
     }
 
     //a way to convert a Data with lib firebase
