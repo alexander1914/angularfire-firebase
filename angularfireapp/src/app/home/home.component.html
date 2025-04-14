@@ -13,13 +13,15 @@
     <mat-tab-group>
 
         <mat-tab label="Beginners">
-            <courses-card-list [courses]="beginnersCourses$ | async" (courseEdited)="reloadCourses()">
+            <courses-card-list [courses]="beginnersCourses$ | async" (courseEdited)="reloadCourses()"
+                (courseDeleted)="reloadCourses()">
 
             </courses-card-list>
         </mat-tab>
 
         <mat-tab label="Advanced">
-            <courses-card-list [courses]="advancedCourses$ | async" (courseEdited)="reloadCourses()">
+            <courses-card-list [courses]="advancedCourses$ | async" (courseEdited)="reloadCourses()"
+                (courseDeleted)="reloadCourses()">
 
             </courses-card-list>
         </mat-tab>

@@ -12,6 +12,19 @@ export class CoursesService {
 
   constructor(private db: AngularFirestore) { }
 
+  loadCoursesByCategory(category: string): Observable<Course[]> {
+
+    return this.db.collection(
+      "courses",
+      ref => ref.where("categories", "array-contains", category)
+        .orderBy("seqNo")
+    )
+      .get()
+      .pipe(
+        map(results => convertSnaps(results))
+      );
+  }
+
   createCourse(newCourse: Partial<Course>, courseId?: string) {
     return this.db.collection("courses",
       ref => ref.orderBy("seqNo", "desc").limit(1))
@@ -57,16 +70,7 @@ export class CoursesService {
     return from(this.db.doc(`courses/${courseId}`).update(changes));
   }
 
-  loadCoursesByCategory(category: string): Observable<Course[]> {
-
-    return this.db.collection(
-      "courses",
-      ref => ref.where("categories", "array-contains", category)
-        .orderBy("seqNo")
-    )
-      .get()
-      .pipe(
-        map(results => convertSnaps(results))
-      );
+  deleteCourse(courseId: string) {
+    return from(this.db.doc(`courses/${courseId}`).delete());
   }
 }
