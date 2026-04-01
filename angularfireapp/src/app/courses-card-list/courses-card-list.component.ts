@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Course } from "../model/course";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { EditCourseDialogComponent } from "../edit-course-dialog/edit-course-dialog.component";
@@ -54,7 +54,7 @@ export class CoursesCardListComponent implements OnInit {
     }
 
     onDeleteCourse(course: Course) {
-        this.coursesService.deleteCourse(course.id)
+        this.coursesService.deleteCourseAndLessons(course.id)
             .pipe(
                 tap(() => {
                     console.log("Delete course", course);

@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Course } from '../model/course';
 import { concatMap, map } from 'rxjs/operators';
 import { convertSnaps } from './utils';
+import { Lesson } from '../model/lesson';
 
 @Injectable({
   providedIn: 'root'
@@ -72,5 +73,28 @@ export class CoursesService {
 
   deleteCourse(courseId: string) {
     return from(this.db.doc(`courses/${courseId}`).delete());
+  }
+
+  deleteCourseAndLessons(courseId: string) {
+    return this.db.collection(`courses/${courseId}/lessons`)
+      .get()
+      .pipe(
+        concatMap(result => {
+          const lessons = convertSnaps<Lesson>(result);
+
+          const batch = this.db.firestore.batch();
+
+          const courseRef = this.db.doc(`courses/${courseId}`).ref;
+
+          batch.delete(courseRef);
+
+          for (let lesson of lessons) {
+            const lessonRef = this.db.doc(`courses/${courseId}/lessons/${lesson.id}`).ref
+            batch.delete(lessonRef);
+          }
+
+          return from(batch.commit());
+        })
+      );
   }
 }
