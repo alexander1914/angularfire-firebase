@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Course } from '../model/course';
+import { OrderByDirection } from '@firebase/firestore-types';
 import { concatMap, map } from 'rxjs/operators';
 import { convertSnaps } from './utils';
+
+import { Course } from '../model/course';
 import { Lesson } from '../model/lesson';
 
 @Injectable({
@@ -23,6 +25,33 @@ export class CoursesService {
       .get()
       .pipe(
         map(results => convertSnaps(results))
+      );
+  }
+
+  findCourseByUrl(courseUrl: string): Observable<Course | null> {
+    return this.db.collection("courses",
+      ref => ref.where("url", "==", courseUrl))
+      .get()
+      .pipe(
+        map(results => {
+          const courses = convertSnaps<Course>(results);
+
+          return courses.length == 1 ? courses[0] : null;
+        })
+      )
+  }
+
+  findLessons(courseId: string, sortOrder: OrderByDirection = 'asc',
+    pageNumber = 0, pageSize = 3): Observable<Lesson[]> {
+    
+    return this.db.collection(`courses/${courseId}/lessons`,
+      ref => ref.orderBy("seqNo", sortOrder)
+        .limit(pageSize)
+        .startAfter(pageNumber * pageSize)
+    )
+      .get()
+      .pipe(
+        map(results => convertSnaps<Lesson>(results))
       );
   }
 
