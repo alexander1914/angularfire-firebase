@@ -25,7 +25,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.afAuth.app.then(app => {
             const uiConfig = {
                 signInOptions: [
-                    EmailAuthProvider.PROVIDER_ID,
+                    {
+                        provider: EmailAuthProvider.PROVIDER_ID,
+                        requireDisplayName: false // It's remove name and lastName
+                    },                    
                     GoogleAuthProvider.PROVIDER_ID
                 ],
                 callbacks: {
@@ -48,7 +51,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         console.log("Firebase UI result:", result);
         
         this.router.navigateByUrl("/courses");
-        return true;
+        
+        return false;
     }
 }
 
