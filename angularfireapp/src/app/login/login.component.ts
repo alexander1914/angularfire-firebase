@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 signInOptions: [
                     {
                         provider: EmailAuthProvider.PROVIDER_ID,
-                        requireDisplayName: false // It's remove name and lastName
+                        //requireDisplayName: false // It's remove name and lastName
                     },                    
                     GoogleAuthProvider.PROVIDER_ID
                 ],
@@ -37,7 +37,9 @@ export class LoginComponent implements OnInit, OnDestroy {
             };
             
             this.ui = new firebaseui.auth.AuthUI(app.auth());
+            
             this.ui.start("#firebaseui-auth-container", uiConfig);
+            
             this.ui.disableAutoSignIn();
         });
     }
