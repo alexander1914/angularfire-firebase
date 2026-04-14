@@ -46,5 +46,8 @@ The application is visible at port 4200: [http://localhost:4200](http://localhos
 # Running the firebase commands
 
     firebase emulators:start --only firestore
-    firebase emulators:start
     firebase emulators:start --only firestore --import test-data
+
+# Running the firebase emulators local 
+    npm run local-dev
+    npm start     
