@@ -17,13 +17,13 @@ import { CoursesService } from '../services/courses.service';
 })
 export class CreateCourseComponent implements OnInit {
 
-  courseId: string;
+  courseId!: string;
 
   //To create Validators your form
   form = this.fb.group({
     description: ['', Validators.required],
     category: ["BEGINNER", Validators.required],
-    url: ['', Validators.required],
+    url: [''],
     longDescription: ['', Validators.required],
     promo: [false],
     promoStartAt: [null]
