@@ -5,6 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { CoursesService } from '../services/courses.service';
+import { UserService } from '../services/user.service';
 
 
 @Component({
@@ -14,15 +15,16 @@ import { CoursesService } from '../services/courses.service';
 })
 export class HomeComponent implements OnInit {
 
-  courses$: Observable<Course[]>;
+  courses$!: Observable<Course[]>;
 
-  beginnersCourses$: Observable<Course[]>;
+  beginnersCourses$!: Observable<Course[]>;
 
-  advancedCourses$: Observable<Course[]>;
+  advancedCourses$!: Observable<Course[]>;
 
   constructor(
     private router: Router,
-    private courseService: CoursesService) {
+    private courseService: CoursesService,
+    public user: UserService) {
 
   }
 

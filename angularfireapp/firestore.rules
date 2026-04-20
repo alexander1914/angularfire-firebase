@@ -6,6 +6,11 @@ service cloud.firestore {
   
   match /databases/{database}/documents {
 
+    function isAdmin() {
+      return isAuthenticated() && 'admin' in request.auth.token &&
+        request.auth.token.admin == true;
+    }
+    
     function isAuthenticated() {
       return request.auth.uid != null;
     }
@@ -20,17 +25,28 @@ service cloud.firestore {
       request.resource.data.seqNo >= 0 &&
       isNonEmptyString("url");      
     }
+
+    function isKnowUser() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
     
     match /courses/{courseId} {
       
-      allow read: if isAuthenticated(); 
+      allow read: if isKnowUser(); 
 
-      allow write: if isValidCourse() && isAuthenticated();
+      allow create, update: if isValidCourse() && isAdmin();
       
+      allow delete: if isAdmin();
+
       match /lessons/{lessonId} {      
-        allow read: if isAuthenticated();
+        allow read: if isKnowUser();
       } 
   
+    }
+
+    match /{path=**}/lessons/{lessonId} {
+        allow read: if isKnowUser();
     }          
     
   }  
