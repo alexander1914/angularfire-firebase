@@ -1,28 +1,42 @@
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {HomeComponent} from './home/home.component';
-import {AboutComponent} from './about/about.component';
-import {CourseComponent} from './course/course.component';
-import {LoginComponent} from './login/login.component';
-import {CreateCourseComponent} from './create-course/create-course.component';
-import {AngularFireAuthGuard, hasCustomClaim, redirectUnauthorizedTo} from '@angular/fire/auth-guard';
-import {CreateUserComponent} from './create-user/create-user.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+import { CourseComponent } from './course/course.component';
+import { LoginComponent } from './login/login.component';
+import { CreateCourseComponent } from './create-course/create-course.component';
+import { AngularFireAuthGuard, hasCustomClaim, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import { CreateUserComponent } from './create-user/create-user.component';
 import { CourseResolver } from './services/course.resolver';
+
+const redirectUnauthorizedLogin = () => redirectUnauthorizedTo(['login']);
+
+const adminOnly = () => hasCustomClaim("admin");
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: {
+      authGuardPipe: redirectUnauthorizedLogin
+    }
   },
   {
     path: 'create-course',
-    component: CreateCourseComponent
-
+    component: CreateCourseComponent,
+    canActivate: [AngularFireAuthGuard],
+    data:{
+      authGuardPipe: adminOnly
+    }
   },
   {
     path: 'create-user',
-    component: CreateUserComponent
-
+    component: CreateUserComponent,
+    canActivate: [AngularFireAuthGuard],
+    data:{
+      authGuardPipe: adminOnly
+    }
   },
   {
     path: 'about',
@@ -35,8 +49,12 @@ const routes: Routes = [
   {
     path: 'courses/:courseUrl',
     component: CourseComponent,
-    resolve:{
+    resolve: {
       course: CourseResolver
+    },
+    canActivate: [AngularFireAuthGuard],
+    data: {
+      authGuardPipe: redirectUnauthorizedLogin
     }
   },
   {
