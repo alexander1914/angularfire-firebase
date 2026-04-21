@@ -32,8 +32,8 @@ export class CreateCourseComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private coursesService: CoursesService,
     private afs: AngularFirestore,
-    private router: Router) {
-
+    private router: Router,
+    private storage: AngularFireStorage) {
   }
 
   ngOnInit() {
@@ -73,6 +73,22 @@ export class CreateCourseComponent implements OnInit {
 
       )
       .subscribe();
+  }
+
+  uploadThumbnail($event: any) {
+    
+    const file:File = $event.target.files[0];
+
+    const filePath = `courses/${this.courseId}${file.name}`;
+
+    const task = this.storage.upload(filePath, file, {
+      cacheControl: "max-age=2592000,public"
+    });
+
+    task.snapshotChanges().subscribe();
+
+    console.log(file.name);
+    
   }
 
 }
