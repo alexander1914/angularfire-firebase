@@ -19,6 +19,10 @@ export class CreateCourseComponent implements OnInit {
 
   courseId!: string;
 
+  percentageChanges$!: Observable<number | undefined>;
+
+  iconUrl!: string;
+
   //To create Validators your form
   form = this.fb.group({
     description: ['', Validators.required],
@@ -27,7 +31,7 @@ export class CreateCourseComponent implements OnInit {
     longDescription: ['', Validators.required],
     promo: [false],
     promoStartAt: [null]
-  })
+  })  
 
   constructor(private fb: FormBuilder,
     private coursesService: CoursesService,
@@ -76,8 +80,8 @@ export class CreateCourseComponent implements OnInit {
   }
 
   uploadThumbnail($event: any) {
-    
-    const file:File = $event.target.files[0];
+
+    const file: File = $event.target.files[0];
 
     const filePath = `courses/${this.courseId}${file.name}`;
 
@@ -85,10 +89,21 @@ export class CreateCourseComponent implements OnInit {
       cacheControl: "max-age=2592000,public"
     });
 
-    task.snapshotChanges().subscribe();
+    this.percentageChanges$ = task.percentageChanges();
 
-    console.log(file.name);
-    
+    task.snapshotChanges()
+      .pipe(
+        last(),
+        concatMap(() => this.storage.ref(filePath).getDownloadURL()),
+        tap(url => this.iconUrl = url),
+        catchError(error => {
+          console.log(error);
+          alert("Could not create thumbnail url.");
+          return throwError(error);
+        })
+      )
+      .subscribe();
+
   }
 
 }
