@@ -26,6 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.helloWorld = void 0;
 const https_1 = require("firebase-functions/v2/https");
 const logger = __importStar(require("firebase-functions/logger"));
+//import { onDocumentCreated } from "firebase-functions/v2/firestore";
 exports.helloWorld = (0, https_1.onRequest)((request, response) => {
     logger.info("Executando função com Node 22!");
     response.send("Deploy realizado com sucesso!");
