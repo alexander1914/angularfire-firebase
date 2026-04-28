@@ -1,6 +1,7 @@
 import { onRequest } from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
 import { onDocumentCreated, onDocumentDeleted, onDocumentUpdated } from "firebase-functions/v2/firestore";
+import { createUserApp } from "./create-user.js";
 
 export const helloWorld = onRequest((request, response) => {
     logger.info("Executando função com Node 22!");
@@ -51,3 +52,5 @@ export const onCourseDeletedUpdatePromoCounter = onDocumentDeleted({
 
     await module.default(event);
 });
+
+export const createUser = onRequest(createUserApp);

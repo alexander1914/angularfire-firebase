@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  useEmulators: true, // To run a enviroment local by firebase emulators
+  useEmulators: false, // To run a enviroment local by firebase emulators
   firebase: {
     apiKey: "AIzaSyC6BzdARqJ9jbcHsTOEqK7eTNjXwW2WTRQ",
     authDomain: "angularfire-2a7c1.firebaseapp.com",
@@ -14,7 +14,7 @@ export const environment = {
     appId: "1:370674444282:web:5109ebb4076d2aebdca643"
   },
   api: {
-
+    createUser: "url here can't to teste beacuase my version node global 20 but in my project old"
   }
 };
 /*
