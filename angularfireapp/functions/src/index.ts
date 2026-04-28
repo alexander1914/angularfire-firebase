@@ -1,12 +1,10 @@
 import { onRequest } from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
-import { onDocumentCreated } from "firebase-functions/v2/firestore";
-import { FieldValue } from "firebase-admin/firestore";
-import { db } from "./init";
+import { onDocumentCreated, onDocumentDeleted, onDocumentUpdated } from "firebase-functions/v2/firestore";
 
 export const helloWorld = onRequest((request, response) => {
-  logger.info("Executando função com Node 22!");
-  response.send("Deploy realizado com sucesso!");
+    logger.info("Executando função com Node 22!");
+    response.send("Deploy realizado com sucesso!");
 });
 
 export const onAddCourseUpdatePromoCounter = onDocumentCreated({
@@ -14,27 +12,42 @@ export const onAddCourseUpdatePromoCounter = onDocumentCreated({
     memory: "128MiB",
     timeoutSeconds: 300
 }, async (event) => {
-    const snap = event.data;
-    if (!snap) return;
 
-    const course = snap.data();
-    const courseId = event.params.courseId;
+    const module = await import("./promotions-counter/on-add-course.js") as unknown as {
+        default: (event: any) => Promise<void>
+    };
 
-    logger.debug(`Running add course trigger for courseId ${courseId}`);
+    await module.default(event);
+});
 
-    // Só prossegue se 'promo' for verdadeiro
-    if (course.promo) {
-        const counterRef = db.doc("courses/stats");
-
-        try {
-            // FieldValue.increment não precisa de transação manual
-            // Ele resolve o conflito de escrita no lado do servidor
-            await counterRef.set({
-                totalPromo: FieldValue.increment(1)
-            }, { merge: true }); // 'merge' garante que não sobrescreva outros campos em 'stats'
-            
-        } catch (error) {
-            logger.error("Erro ao atualizar contador:", error);
-        }
+export const onCourseUpdatedUpdatePromoCounter = onDocumentUpdated({
+    document: "courses/{courseId}"
+}, async (event) => {
+    
+    if (!event.data) {
+        console.error("No data associated with this event");
+        return;
     }
+
+    const module = await import("./promotions-counter/on-update-course.js") as unknown as {
+        default: (event: any) => Promise<void>
+    };
+
+    await module.default(event);
+});
+
+export const onCourseDeletedUpdatePromoCounter = onDocumentDeleted({
+    document: "courses/{courseId}"
+}, async (event) => {
+    
+    if (!event.data) {
+        console.error("No data associated with this event");
+        return;
+    }
+
+    const module = await import("./promotions-counter/on-delete-course.js") as unknown as {
+        default: (event: any) => Promise<void>
+    };
+
+    await module.default(event);
 });
