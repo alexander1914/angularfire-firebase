@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { environment } from 'src/environments/environment';
+
+import { environmentProd } from 'src/environments/environment.prod';
 
 @Component({
     selector: 'create-user',
@@ -29,7 +30,7 @@ export class CreateUserComponent {
 
         console.log(user);
 
-        this.http.post(environment.api.createUser, {
+        this.http.post(environmentProd.api.createUser, {
             email: user.email,
             password: user.password,
             admin: user.admin

@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { AngularFireAuthModule, USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/auth';
 import { AngularFirestoreModule, USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/firestore';
 import { AngularFireFunctionsModule, USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
-import { environment } from '../environments/environment';
+import { environmentProd } from 'src/environments/environment.prod';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -77,16 +77,16 @@ import { AuthInterceptor } from './services/auth.interceptor';
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environmentProd.firebase),
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireAuthModule,
     AngularFireFunctionsModule
   ],
   providers: [
-    { provide: USE_AUTH_EMULATOR, useValue: environment.useEmulators ? ['localhost', 9099] : undefined },
-    { provide: USE_FIRESTORE_EMULATOR, useValue: environment.useEmulators ? ['localhost', 8085] : undefined },
-    { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.useEmulators ? ['localhost', 5001] : undefined },
+    { provide: USE_AUTH_EMULATOR, useValue: environmentProd.useEmulators ? ['localhost', 9099] : undefined },
+    { provide: USE_FIRESTORE_EMULATOR, useValue: environmentProd.useEmulators ? ['localhost', 8085] : undefined },
+    { provide: USE_FUNCTIONS_EMULATOR, useValue: environmentProd.useEmulators ? ['localhost', 5001] : undefined },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
