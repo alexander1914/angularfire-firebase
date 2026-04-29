@@ -4,7 +4,7 @@
 
 export const environmentDev = {
   production: false,
-  useEmulators: false, // To run a enviroment local by firebase emulators
+  useEmulators: true, // To run a enviroment local by firebase emulators
   firebase: {
     apiKey: "AIzaSyC6BzdARqJ9jbcHsTOEqK7eTNjXwW2WTRQ",
     authDomain: "angularfire-2a7c1.firebaseapp.com",

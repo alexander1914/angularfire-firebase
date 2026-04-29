@@ -14,10 +14,24 @@
 
 ### Set up enviroment with Angular Fire and Firebase
 
+    npm install --legacy-peer-deps
+
+You will prefer to test local it's neccessary to change (angularfireapp/src/environments/environment.dev.ts) and check the flag 
+useEmulators: false, // To run a enviroment local by firebase emulators then to change (angularfireapp/src/app/app.module.ts)(angularfireapp/src/environments/environment.dev.ts)
+
 ## Firebase Functions
+
+OBS: folder functions
+
+    npm install 
+
+I can't run all functions local but you can change for production and to do just deploy for firebase.
 
 Script to allow admin 
 
     node angularfireapp\functions\scripts\init-admin.js angularfireapp\functions\scripts\angularfire-2a7c1-2282369402b4.json YOUR_ACTUAL_USER_UID
 
 YOUR_ACTUAL_USER_UID -> this number will find firebase authentication UserUid
+
+OBS:
+I defined the user obr.nathi27@gmail.com like admin password 123456
